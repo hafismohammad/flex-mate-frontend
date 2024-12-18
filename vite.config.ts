@@ -1,6 +1,6 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react-swc'; // This plugin allows fast SWC-based React development with Vite
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react-swc'
 
 export default defineConfig({
   plugins: [react()],
-});
+})
