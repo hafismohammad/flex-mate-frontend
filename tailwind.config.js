@@ -1,5 +1,8 @@
+import animated from 'tailwindcss-animated';
+// import daisyui from 'daisyui'; // Uncomment if needed
+
 /** @type {import('tailwindcss').Config} */
-export default  {
+export default {
   content: [
     './index.html',
     './src/**/*.{js,ts,jsx,tsx}',  
@@ -8,7 +11,8 @@ export default  {
     extend: {},
   },
   plugins: [
-    require('tailwindcss-animated'),
-    // require('daisyui'),
+    animated,
+    // daisyui, // Uncomment if needed
   ],
 };
+
