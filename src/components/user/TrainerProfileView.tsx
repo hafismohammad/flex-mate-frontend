@@ -44,7 +44,7 @@ function TrainerProfileView() {
     const fetchTrainer = async () => {
       try {
         const response = await axios.get(
-          `https://api.flexmate.space/api/user/trainers/${trainerId}`
+          `${import.meta.env.VITE_BASE_URL}/user/trainers/${trainerId}`
         );
         setTrainer(response.data[0]);
       } catch (error) {
