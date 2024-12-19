@@ -26,7 +26,7 @@ const useGetMessage = (token: string, id: string) => {
       setLoading(true);
       try {
         const response = await axios.get(
-          `${API_URL}/api/messages/${token}/${id}`
+          `${import.meta.env.VITE_BASE_URL}/api/messages/${token}/${id}`
         );
 
         setMessages(response.data);

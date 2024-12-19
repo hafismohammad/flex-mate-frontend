@@ -17,7 +17,7 @@ const useSendMessage = () => {
         // console.log(message,'--',receiverId,'--', token);
         
       // Correct axios.post call by passing the data as an object
-      const response = await axios.post(`${API_URL}/api/messages/send`, {
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/messages/send`, {
         message,
         receiverId,
         token
