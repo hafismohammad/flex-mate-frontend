@@ -158,7 +158,7 @@ function CurrentSchedules() {
       setLoading(true); // Start loading
       try {
         const response = await axiosInstance.get(
-          `${import.meta.env.VITE_BASE_UR}/api/trainer/schedules/${trainerId}`
+          `${import.meta.env.VITE_BASE_URL}/api/trainer/schedules/${trainerId}`
         );
         const schedules = response.data.sheduleData;
         setSessionSchedules(schedules);
