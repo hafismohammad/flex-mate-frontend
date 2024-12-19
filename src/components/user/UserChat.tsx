@@ -28,7 +28,7 @@ function UserChat({ trainerId }: TrainerChatProps) {
 
   useEffect(() => {
     const fetchTrainerData = async () => {
-      const response = await axios(`${API_URL}/api/user/trainers/${trainerId}`);
+      const response = await axios(`${import.meta.env.VITE_BASE_URL}/api/user/trainers/${trainerId}`);
       setTrainerData(response.data[0]);
     };
     fetchTrainerData();
