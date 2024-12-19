@@ -28,7 +28,7 @@ export const SocketContextProvider = ({
   const dispatch = useDispatch<AppDispatch>();
   const {addTrainerNotification, addUserNotification} = useNotification()
   
-  const newSocket = io(`${import.meta.env.VITE_BASE_URL}`, {
+  const newSocket = io('https://flexmate.space', {
     query: { userId: loggedUser },
     transports: ['websocket'],
   });
