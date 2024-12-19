@@ -75,7 +75,7 @@ const EditTrainerProfile: React.FC = () => {
     const getAllSpecializations = async () => {
       try {
         const response = await axios.get(
-         `${API_URL}/api/trainer/specializations`
+         `${import.meta.env.BASE_URL}/api/trainer/specializations`
         );
         setAllSpecializations(response.data.data);
       } catch (error) {

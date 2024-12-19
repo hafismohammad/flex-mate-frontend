@@ -1,5 +1,5 @@
 import adminAxiosInstance from "../../axios/adminAxiosInstance";
-import API_URL from "../../axios/API_URL";
+
 
 const adminLogin = (adminData: { email: string; password: string }) => {
   return adminAxiosInstance.post(`/api/admin/adminLogin`, adminData);

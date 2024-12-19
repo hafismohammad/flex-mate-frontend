@@ -1,12 +1,12 @@
 import axios, { AxiosResponse, AxiosError, InternalAxiosRequestConfig } from 'axios';
-import API_URL from './API_URL';
+
 
 interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
     _retry?: boolean; 
 }
 
 const axiosInstance = axios.create({
-    baseURL: API_URL,
+    baseURL: `${import.meta.env.BASE_URL}`,
     withCredentials: true, 
 });
 

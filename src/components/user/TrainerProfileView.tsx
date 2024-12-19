@@ -13,7 +13,6 @@ import Loading from "../spinner/Loading";
 import { useSelector } from "react-redux";
 import { RootState } from "../../app/store";
 import axios from "axios";
-import API_URL from "../../../axios/API_URL";
 import toast, { Toaster } from "react-hot-toast";
 import Review from "./Review";
 
@@ -45,7 +44,7 @@ function TrainerProfileView() {
     const fetchTrainer = async () => {
       try {
         const response = await axios.get(
-          `${API_URL}/api/user/trainers/${trainerId}`
+          `${import.meta.env.BASE_URL}/api/user/trainers/${trainerId}`
         );
         setTrainer(response.data[0]);
       } catch (error) {
@@ -96,7 +95,7 @@ function TrainerProfileView() {
 
   useEffect(() => {
     const fetchSeessionSchedules = async () => {
-      const response = await axios.get(`${API_URL}/api/user/schedules`);
+      const response = await axios.get(`${import.meta.env.BASE_URL}/api/user/schedules`);
       setSessionSchedules(response.data);
     };
     fetchSeessionSchedules();

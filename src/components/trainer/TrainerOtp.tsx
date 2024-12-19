@@ -4,7 +4,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { AppDispatch, RootState } from '../../app/store';
 import { trainerVerifyOtp } from '../../actions/trainerAction';
 import toast, { Toaster } from 'react-hot-toast';
-import API_URL from '../../../axios/API_URL';
 import axios from 'axios';
 
 interface Errors {
@@ -65,7 +64,7 @@ function TrainerOtp() {
   const resendOtp = async () => {
     try {
       
-      await axios.post(`${API_URL}/api/trainer/resend-otp`, { email: trainerData.email });
+      await axios.post(`${import.meta.env.BASE_URL}/api/trainer/resend-otp`, { email: trainerData.email });
       setSeconds(60);
       setIsDisabled(true);
       toast.success("OTP resented");

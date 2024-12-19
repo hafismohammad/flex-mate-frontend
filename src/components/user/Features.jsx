@@ -21,7 +21,7 @@ function Features({ servicesRef }) {
   useEffect(() => {
     const getAllSpecializations = async () => {
       try {
-        const response = await axios.get(`https://api.flexmate.space/api/user/specializations`);
+        const response = await axios.get(`${import.meta.env.BASE_URL}/api/user/specializations`);
         const listedSpecializations = response.data.filter(spec => spec.isListed);
         setSpecializations(listedSpecializations);
       } catch (error) {

@@ -5,7 +5,6 @@ import { AppDispatch, RootState } from "../../app/store";
 import { useSocketContext } from "../../context/Socket";
 import TrainerChat from "./TrainerChat";
 import axios from "axios";
-import API_URL from "../../../axios/API_URL";
 import { IVideoCall } from "../../types/common";
 import { useDispatch } from "react-redux";
 import { setPrescription } from "../../features/trainer/trainerSlice";
@@ -40,7 +39,7 @@ function ChatSideBar() {
     const fetchCallHistory = async () => {
       try {
         const response = await axios.get(
-          `${API_URL}/api/messages/call-history/${trainerId}`
+          `${import.meta.env.BASE_URL}/api/messages/call-history/${trainerId}`
         );
         setCallHistory(response.data || []);
       } catch (error) {

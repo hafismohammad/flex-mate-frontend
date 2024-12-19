@@ -99,7 +99,7 @@ function CurrentSchedules() {
 
     try {
       const response = await axiosInstance.post(
-        `${API_URL}/api/trainer/session/${trainerId}`,
+        `${import.meta.env.BASE_URL}/api/trainer/session/${trainerId}`,
         sessionData
       );
       const newSchedule = response.data.createdSessionData;
@@ -158,7 +158,7 @@ function CurrentSchedules() {
       setLoading(true); // Start loading
       try {
         const response = await axiosInstance.get(
-          `${API_URL}/api/trainer/schedules/${trainerId}`
+          `${import.meta.env.BASE_URL}/api/trainer/schedules/${trainerId}`
         );
         const schedules = response.data.sheduleData;
         setSessionSchedules(schedules);

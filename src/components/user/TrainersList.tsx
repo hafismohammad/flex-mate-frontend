@@ -16,7 +16,7 @@ function TrainersList() {
     const fetchAllTrainers = async () => {
       try {
         const response = await axios.get<Trainer[]>(
-          `${API_URL}/api/user/trainers`
+          `${import.meta.env.BASE_URL}/api/user/trainers`
         );
         const trainers = response.data;
         const params = new URLSearchParams(location.search);
