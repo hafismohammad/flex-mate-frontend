@@ -39,7 +39,7 @@ function ChatSideBar() {
     const fetchCallHistory = async () => {
       try {
         const response = await axios.get(
-          `${import.meta.env.BASE_URL}/api/messages/call-history/${trainerId}`
+          `${import.meta.env.VITE_BASE_UR}/api/messages/call-history/${trainerId}`
         );
         setCallHistory(response.data || []);
       } catch (error) {

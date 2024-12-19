@@ -64,7 +64,7 @@ function TrainerOtp() {
   const resendOtp = async () => {
     try {
       
-      await axios.post(`${import.meta.env.BASE_URL}/api/trainer/resend-otp`, { email: trainerData.email });
+      await axios.post(`${import.meta.env.VITE_BASE_UR}/api/trainer/resend-otp`, { email: trainerData.email });
       setSeconds(60);
       setIsDisabled(true);
       toast.success("OTP resented");

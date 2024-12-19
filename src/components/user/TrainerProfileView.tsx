@@ -44,7 +44,7 @@ function TrainerProfileView() {
     const fetchTrainer = async () => {
       try {
         const response = await axios.get(
-          `${import.meta.env.BASE_URL}/api/user/trainers/${trainerId}`
+          `${import.meta.env.VITE_BASE_UR}/api/user/trainers/${trainerId}`
         );
         setTrainer(response.data[0]);
       } catch (error) {
@@ -95,7 +95,7 @@ function TrainerProfileView() {
 
   useEffect(() => {
     const fetchSeessionSchedules = async () => {
-      const response = await axios.get(`${import.meta.env.BASE_URL}/api/user/schedules`);
+      const response = await axios.get(`${import.meta.env.VITE_BASE_UR}/api/user/schedules`);
       setSessionSchedules(response.data);
     };
     fetchSeessionSchedules();

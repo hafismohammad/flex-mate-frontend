@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { RootState } from "../../app/store";
 import { useSelector } from "react-redux";
-import API_URL from "../../../axios/API_URL";
 import userAxiosInstance from "../../../axios/userAxionInstance";
 import Swal from "sweetalert2";
 import { formatPriceToINR, formatTime } from "../../utils/timeAndPriceUtils";
@@ -72,7 +71,7 @@ function Bookings() {
             return;
           }
           const response = await axios.patch(
-            `${API_URL}/api/user/cancel-booking/${bookingId}`
+            `${import.meta.env.VITE_BASE_UR}/api/user/cancel-booking/${bookingId}`
           );
           setBookings((prev) =>
             prev.map((booking) =>
