@@ -44,7 +44,7 @@ function TrainerProfileView() {
     const fetchTrainer = async () => {
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_BASE_URL}/user/trainers/${trainerId}`
+          `${import.meta.env.VITE_BASE_URL}/api/users/trainers/${trainerId}`
         );
         setTrainer(response.data[0]);
       } catch (error) {
