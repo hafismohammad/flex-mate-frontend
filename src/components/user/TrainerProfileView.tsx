@@ -44,7 +44,7 @@ function TrainerProfileView() {
     const fetchTrainer = async () => {
       try {
         const response = await axios.get(
-          `https://www.flexmate.space/api/user/trainers/${trainerId}`
+          `https://api.flexmate.space/api/user/trainers/${trainerId}`
         );
         setTrainer(response.data[0]);
       } catch (error) {
