@@ -8,7 +8,7 @@ interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
 }
 
 const userAxiosInstance = axios.create({
-    baseURL: `${import.meta.env.VITE_BASE_UR}`,
+    baseURL: `${import.meta.env.VITE_BASE_URL}`,
     withCredentials: true,
 });
 

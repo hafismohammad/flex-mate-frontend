@@ -95,7 +95,7 @@ function TrainerProfileView() {
 
   useEffect(() => {
     const fetchSeessionSchedules = async () => {
-      const response = await axios.get(`${import.meta.env.VITE_BASE_UR}/api/user/schedules`);
+      const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/user/schedules`);
       setSessionSchedules(response.data);
     };
     fetchSeessionSchedules();

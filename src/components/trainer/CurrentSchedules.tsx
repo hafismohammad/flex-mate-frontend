@@ -99,7 +99,7 @@ function CurrentSchedules() {
 
     try {
       const response = await axiosInstance.post(
-        `${import.meta.env.VITE_BASE_UR}/api/trainer/session/${trainerId}`,
+        `${import.meta.env.VITE_BASE_URL}/api/trainer/session/${trainerId}`,
         sessionData
       );
       const newSchedule = response.data.createdSessionData;

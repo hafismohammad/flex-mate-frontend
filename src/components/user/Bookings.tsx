@@ -71,7 +71,7 @@ function Bookings() {
             return;
           }
           const response = await axios.patch(
-            `${import.meta.env.VITE_BASE_UR}/api/user/cancel-booking/${bookingId}`
+            `${import.meta.env.VITE_BASE_URL}/api/user/cancel-booking/${bookingId}`
           );
           setBookings((prev) =>
             prev.map((booking) =>
