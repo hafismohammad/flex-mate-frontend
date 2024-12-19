@@ -3,7 +3,7 @@ import API_URL from '../../axios/API_URL';
 import userAxiosInstance from "../../axios/userAxionInstance";
 
 const register = async (userDetails: User) => {
-  const response = await userAxiosInstance.post(`${import.meta.env.BASE_URL}/api/user/signup`, userDetails);
+  const response = await userAxiosInstance.post(`${import.meta.env.VITE_BASE_UR}/api/user/signup`, userDetails);
 
   if (response.data) {
     console.log('register', response.data);
@@ -13,7 +13,7 @@ const register = async (userDetails: User) => {
 };
 
 const login = async (userData: { email: string; password: string }) => {
-  const response = await userAxiosInstance.post(`${import.meta.env.BASE_URL}/api/user/login`, userData);
+  const response = await userAxiosInstance.post(`${import.meta.env.VITE_BASE_UR}/api/user/login`, userData);
   return response;
 };
 
@@ -24,7 +24,7 @@ const verifyOtp = async ({
   userData: User;
   otp: string;
 }) => {
-  const response = await userAxiosInstance.post(`${import.meta.env.BASE_URL}/api/user/verifyotp`, { userData, otp });
+  const response = await userAxiosInstance.post(`${import.meta.env.VITE_BASE_UR}/api/user/verifyotp`, { userData, otp });
 
   if (response.data) {
     // Store the user data in localStorage after successful OTP verification
@@ -35,7 +35,7 @@ const verifyOtp = async ({
 };
 
 const logout = () => {
-  return userAxiosInstance.post(`${import.meta.env.BASE_URL}/api/user/logout`, {});
+  return userAxiosInstance.post(`${import.meta.env.VITE_BASE_UR}/api/user/logout`, {});
 }
 
 const userService = {
