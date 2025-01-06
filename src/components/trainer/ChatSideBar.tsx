@@ -39,7 +39,9 @@ function ChatSideBar() {
     const fetchCallHistory = async () => {
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_BASE_URL}/api/messages/call-history/${trainerId}`
+          `${
+            import.meta.env.VITE_BASE_URL
+          }/api/messages/call-history/${trainerId}`
         );
         setCallHistory(response.data || []);
       } catch (error) {
@@ -214,7 +216,7 @@ function ChatSideBar() {
                       src={user.userImage || "/default-avatar.png"}
                       alt={`${user.userName}'s Avatar`}
                     />
-                    <div className="ml-4">
+                    {/* <div className="ml-4">
                       <h3 className="font-semibold">{user.userName}</h3>
 
                       {user.hasNewMessage && (
@@ -223,6 +225,18 @@ function ChatSideBar() {
                           {JSON.parse(
                             localStorage.getItem("messageCounts") || "{}"
                           )[user.userId] || 0}{" "}
+                          )
+                        </span>
+                      )}
+                    </div> */}
+                    <div className="ml-4">
+                      <h3 className="font-semibold">{user.userName}</h3>
+                      {user.hasNewMessage && (
+                        <span className="text-sm text-red-500">
+                          New Message (
+                          {JSON.parse(
+                            localStorage.getItem("messageCounts") || "{}"
+                          )[user.userId] || 0}
                           )
                         </span>
                       )}
