@@ -17,7 +17,7 @@ function TrainersSidebar() {
   useEffect(() => {
     const fetchSpecializations = async () => {
       try {
-        const response = await axios.get(`${API_URL}/api/user/specializations`);
+        const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/user/specializations`);
         setSpecializations(response.data);
       } catch (error) {
         console.error("Error fetching specializations:", error);
