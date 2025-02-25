@@ -73,7 +73,7 @@ function TrainerChat({ userId, bookingId }: TrainerChatProps) {
     //   }
     // };
     const handleNewMessage = (newMessage: any) => {
-      console.log("newMessage", newMessage);
+      // console.log("newMessage", newMessage);
 
       setLocalMessages((prevMessages) => [...prevMessages, newMessage]);
     };

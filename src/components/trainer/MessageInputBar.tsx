@@ -28,7 +28,7 @@ function MessageInputBar({ userId, onNewMessage }: MessageInputBarProps) {
     const fetchTrainer = async () => {
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_BASE_URL}api/trainer/users/${userId}`,
+          `${import.meta.env.VITE_BASE_URL}/api/trainer/users/${userId}`,
           {
             headers: { Authorization: `Bearer ${validToken}` }, 
           }
@@ -59,6 +59,7 @@ function MessageInputBar({ userId, onNewMessage }: MessageInputBarProps) {
     fetchTrainer();
   }, [userId]);
 
+
   const handleSendMessage = async (e: React.FormEvent<HTMLElement>) => {
     e.preventDefault();
     if (!message) return;
@@ -67,15 +68,21 @@ function MessageInputBar({ userId, onNewMessage }: MessageInputBarProps) {
     const newMessage = {
       message,
       receiverId,
+      userName: trainer,
       senderModel: "Trainer",
       createdAt: new Date().toISOString(),
       userId: trainerInfo.id,
     };
 
+
     if (socket) {
       socket.emit("sendMessage", newMessage);
     } else {
       console.error("Socket is not initialized");
+    }
+
+    if(socket) {
+      socket.emit('chatNotificationFromTrainer', newMessage)
     }
 
     await sendMessage({ message, receiverId, token: validToken , senderName: trainer});
