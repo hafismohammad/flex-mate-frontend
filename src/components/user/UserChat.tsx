@@ -33,11 +33,11 @@ function UserChat({ trainerId }: TrainerChatProps) {
 
   useEffect(()=>{
   console.log("ref ident",messageRef.current);
-  console.log("messages ident from custom message hook",messages)
+  console.log(messages.length?"second render"+messages:"intial render"+messages)
   console.log("local messages ident : chat = >",localMessages);
   setLocalMessages(messages);
   },[messages])
-  console.log(messages)
+  console.log("mesage update"+messages)
 
   useEffect(() => {
     const fetchTrainerData = async () => {
