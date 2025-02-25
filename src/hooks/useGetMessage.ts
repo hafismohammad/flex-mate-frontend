@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import API_URL from "../../axios/API_URL";
 
 interface Message {
@@ -16,7 +16,7 @@ interface Message {
 
 const useGetMessage = (token: string, id: string) => {
   // console.log('get data', token, '=====',id);
-
+  const messageRef = useRef()
   const [loading, setLoading] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   // console.log('messages', messages);
@@ -29,7 +29,7 @@ const useGetMessage = (token: string, id: string) => {
           `${import.meta.env.VITE_BASE_URL}/api/messages/${token}/${id}`
         );
         console.log('response.data',response.data);
-
+       messageRef.current = response.data
         setMessages(response.data);
         
       } catch (error) {
@@ -38,11 +38,13 @@ const useGetMessage = (token: string, id: string) => {
         setLoading(false);
       }
     };
-    if (id) getMessage();
+    if (id)  getMessage();
   }, [token, id, setMessages]);
   console.log("messages in hook",messages);
+  console.log("hook nte ulliley ref",messageRef.current);
   
-  return { messages, loading };
+  
+  return { messages, loading ,messageRef};
 };
 
 export default useGetMessage;

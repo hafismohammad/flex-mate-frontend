@@ -23,7 +23,7 @@ function UserChat({ trainerId }: TrainerChatProps) {
   } | null>(null);
   const [userData, setUserData] = useState<User | null>(null);
   const { token, userInfo } = useSelector((state: RootState) => state.user);
-  const { messages, loading } = useGetMessage(token!, trainerId!);
+  const { messages, loading ,messageRef } = useGetMessage(token!, trainerId!);
   const [localMessages, setLocalMessages] = useState(messages);
   const [onlineUsers, setOnlineUsers] = useState<string[]>([]);
   // console.log('localMessages',localMessages);
@@ -32,6 +32,8 @@ function UserChat({ trainerId }: TrainerChatProps) {
   let { socket } = useSocketContext();
 
   useEffect(()=>{
+    console.log("ref",messageRef.current);
+    
     console.log("messages from custom message hook",messages)
   console.log("local messages : chat = >",localMessages);
   
