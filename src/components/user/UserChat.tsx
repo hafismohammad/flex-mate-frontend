@@ -31,7 +31,10 @@ function UserChat({ trainerId }: TrainerChatProps) {
   const { trainerInfo } = useSelector((state: RootState) => state.trainer);
   let { socket } = useSocketContext();
 
-
+  useEffect(()=>{
+  console.log("local messages : chat = >"+localMessages);
+  
+  },[])
   
 
   useEffect(() => {
@@ -131,7 +134,7 @@ function UserChat({ trainerId }: TrainerChatProps) {
             <MessageSkeleton />
           </div>
         ) : (
-          localMessages.map((msg, index) => (
+         localMessages.length && localMessages.map((msg, index) => (
             <Message
               key={index}
               sender={
