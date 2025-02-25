@@ -54,7 +54,7 @@ function UserChat({ trainerId }: TrainerChatProps) {
     socket.emit("join", trainerInfo?.id || userInfo?.id);
 
     const handleUpdateOnlineUsers = (users: string[]) => {
-      console.log("Updated Online Users:", users);
+      // console.log("Updated Online Users:", users);
       setOnlineUsers(users);
     };
 

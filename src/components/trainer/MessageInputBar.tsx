@@ -28,7 +28,7 @@ function MessageInputBar({ userId, onNewMessage }: MessageInputBarProps) {
     const fetchTrainer = async () => {
       try {
         const response = await axios.get(
-          `${API_URL}/api/trainer/users/${userId}`,
+          `${import.meta.env.VITE_BASE_URL}api/trainer/users/${userId}`,
           {
             headers: { Authorization: `Bearer ${validToken}` }, 
           }
@@ -45,7 +45,7 @@ function MessageInputBar({ userId, onNewMessage }: MessageInputBarProps) {
     const fetchTrainer = async () => {
       try {
         const response = await axios.get(
-          `${API_URL}/api/trainer/${trainerInfo.id}`,
+          `${import.meta.env.VITE_BASE_URL}/api/trainer/${trainerInfo.id}`,
           {
             headers: { Authorization: `Bearer ${validToken}` }, 
           }
