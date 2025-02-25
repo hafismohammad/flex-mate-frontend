@@ -31,6 +31,9 @@ function UserChat({ trainerId }: TrainerChatProps) {
   const { trainerInfo } = useSelector((state: RootState) => state.trainer);
   let { socket } = useSocketContext();
 
+
+  
+
   useEffect(() => {
     const fetchTrainerData = async () => {
       const response = await axios(`${import.meta.env.VITE_BASE_URL}/api/user/trainers/${trainerId}`);

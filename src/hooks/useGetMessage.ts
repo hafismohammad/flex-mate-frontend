@@ -30,6 +30,8 @@ const useGetMessage = (token: string, id: string) => {
         );
 
         setMessages(response.data);
+        console.log('response.data',response.data);
+        
       } catch (error) {
         console.error("Failed to fetch messages:", error);
       } finally {
