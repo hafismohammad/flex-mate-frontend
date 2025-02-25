@@ -32,7 +32,8 @@ function UserChat({ trainerId }: TrainerChatProps) {
   let { socket } = useSocketContext();
 
   useEffect(()=>{
-  console.log("local messages : chat = >"+localMessages);
+    console.log("messages from custom message hook",messages)
+  console.log("local messages : chat = >",localMessages);
   
   },[])
   
