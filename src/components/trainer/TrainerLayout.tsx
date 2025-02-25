@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import TrainerSidebar from "./TrainerSidebar";
 import { Outlet, useNavigate } from "react-router-dom";
-import { FaUserCircle } from "react-icons/fa";
 import { BsBell } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../app/store";
@@ -19,14 +18,22 @@ interface Notification {
 const TrainerLayout: React.FC = () => {
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+  const [trainerProfile, setTrainerProfile] = useState('')
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const {trainerNotifications, addTrainerNotification, clearTrainerNotifications, updateTrainerNotificationReadStatus} = useNotification();
+  const {
+    trainerNotifications,
+    addTrainerNotification,
+    clearTrainerNotifications,
+    updateTrainerNotificationReadStatus,
+  } = useNotification();
+
+
   const { trainerInfo } = useSelector((state: RootState) => state.trainer);
 
   const handleLogout = () => {
     dispatch(logoutTrainer());
-    clearTrainerNotifications()
+    clearTrainerNotifications();
     navigate("/trainer/login");
   };
 
@@ -77,8 +84,16 @@ const TrainerLayout: React.FC = () => {
 
   const handleReadUnread = (notificationId: string) => {
     updateTrainerNotificationReadStatus(notificationId);
-    
   };
+
+  useEffect(() => {
+    const fetchTrainerData = async () => {
+      const response = await axiosInstance(`api/trainer/${trainerInfo.id}`)
+      setTrainerProfile(response.data.trainerData[0].profileImage)
+    }
+    fetchTrainerData()
+  },[trainerInfo?.id])
+console.log('trainerNotifications',trainerNotifications);
 
   return (
     <div className="flex h-screen">
@@ -98,43 +113,39 @@ const TrainerLayout: React.FC = () => {
               </span>
 
               {isNotificationOpen && (
-                <div className="absolute top-10 right-0 w-80 bg-white shadow-lg rounded-md p-4 z-10">
+                <div className="absolute top-10 right-0 w-96 bg-white shadow-lg rounded-md p-4 z-50">
                   <h3 className="text-lg font-semibold text-gray-800 border-b pb-2">
                     Notifications
                   </h3>
                   {trainerNotifications.length > 0 ? (
                     <>
                       <ul className="space-y-3 mt-2 max-h-64 overflow-y-auto">
-                        {trainerNotifications.length > 0 ? (
-                          <>
-                            {trainerNotifications.map((notification, index) => (
-                              <li
-                                key={index}
-                                onClick={() => handleReadUnread(notification.id)}
-                                className={`text-sm text-gray-700 border-b pb-2 ${
-                                  notification.read
-                                    ? "opacity-50 bg-gray-100"
-                                    : "bg-yellow-100"
-                                }`}
-                              >
-                                {typeof notification.message === "string"
-                                  ? notification.message
-                                  : "Invalid message"}
-                              </li>
-                            ))}
-                          </>
-                        ) : (
-                          <p className="text-sm text-gray-500">
-                            No new notifications
-                          </p>
-                        )}
+                        {trainerNotifications
+                          .slice() // Create a copy to avoid mutating the state
+                          .sort(
+                            (a, b) =>
+                              new Date(b.createdAt).getTime() -
+                              new Date(a.createdAt).getTime()
+                          ) // Sort in descending order
+                          .map((notification, index) => (
+                            <li
+                              key={index}
+                              onClick={() => handleReadUnread(notification.id)}
+                              className={`text-sm text-gray-700 border-b pb-2 ${
+                                notification.read
+                                  ? "opacity-50 bg-gray-100"
+                                  : "bg-yellow-100"
+                              }`}
+                            >
+                              {typeof notification.message === "string"
+                                ? notification.message
+                                : "Invalid message"}
+                            </li>
+                          ))}
                       </ul>
 
                       <div className="flex justify-end mt-2">
-                        <button
-                          onClick={handleClear}
-                          className="text-gray-800"
-                        >
+                        <button onClick={handleClear} className="text-gray-800">
                           Clear
                         </button>
                       </div>
@@ -153,7 +164,7 @@ const TrainerLayout: React.FC = () => {
                 className="flex items-center focus:outline-none"
                 onClick={toggleProfileDropdown}
               >
-                <FaUserCircle className="text-2xl" />
+                <img src={trainerProfile} className="h-10 w-10 rounded-full" alt="" />
               </button>
               {isProfileDropdownOpen && (
                 <ul

@@ -176,7 +176,7 @@ function ChatSideBar() {
   };
 
   return (
-    <div className="flex ">
+    <div className="flex">
       <Toaster />
       <div className="p-6 bg-gray-100 min-h-screen w-1/4 ">
         <div className="flex justify-center gap-4">
@@ -281,7 +281,7 @@ function ChatSideBar() {
           </div>
         )}
       </div>
-      <div className="flex-1 ml-4 h-[600px] overflow-auto shadow-lg">
+      <div className=" flex-1 ml-4 h-[600px] overflow-auto shadow-lg">
         {selectedUserId ? (
           <TrainerChat userId={selectedUserId} bookingId={bookingId} />
         ) : (
