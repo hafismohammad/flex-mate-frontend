@@ -23,7 +23,7 @@ function UserChat({ trainerId }: TrainerChatProps) {
   } | null>(null);
   const [userData, setUserData] = useState<User | null>(null);
   const { token, userInfo } = useSelector((state: RootState) => state.user);
-  const { messages, loading ,messageRef } = useGetMessage(token!, trainerId!);
+  const { messages, loading, messageRef } = useGetMessage(token!, trainerId!);
   const [localMessages, setLocalMessages] = useState(messages);
   const [onlineUsers, setOnlineUsers] = useState<string[]>([]);
   // console.log('localMessages',localMessages);
@@ -31,17 +31,23 @@ function UserChat({ trainerId }: TrainerChatProps) {
   const { trainerInfo } = useSelector((state: RootState) => state.trainer);
   let { socket } = useSocketContext();
 
-  useEffect(()=>{
-  console.log("ref ident",messageRef.current);
-  console.log(messages.length?"second render"+messages:"intial render"+messages)
-  console.log("local messages ident : chat = >",localMessages);
-  setLocalMessages(messages);
-  },[messages])
-  console.log("mesage update"+messages)
+  useEffect(() => {
+    if (messages.length) {
+      console.log("ref ident", messageRef.current);
+      console.log(messages.length && `second render ${messages}`);
+      console.log("local messages ident : chat = >", localMessages);
+      setLocalMessages(messages);
+    } else {
+      console.log("component intial");
+    }
+  }, [messages]);
+  console.log("mesage update" + localMessages);
 
   useEffect(() => {
     const fetchTrainerData = async () => {
-      const response = await axios(`${import.meta.env.VITE_BASE_URL}/api/user/trainers/${trainerId}`);
+      const response = await axios(
+        `${import.meta.env.VITE_BASE_URL}/api/user/trainers/${trainerId}`
+      );
       setTrainerData(response.data[0]);
     };
     fetchTrainerData();
@@ -93,8 +99,6 @@ function UserChat({ trainerId }: TrainerChatProps) {
     };
   }, [socket, trainerInfo?.id, userInfo?.id]);
 
-  
-
   const handleNewMessage = (newMessage: any) => {
     setLocalMessages((prevMessages) => {
       const isDuplicate = prevMessages.some(
@@ -134,7 +138,8 @@ function UserChat({ trainerId }: TrainerChatProps) {
             <MessageSkeleton />
           </div>
         ) : (
-         localMessages.length && localMessages.map((msg, index) => (
+          localMessages.length &&
+          localMessages.map((msg, index) => (
             <Message
               key={index}
               sender={
