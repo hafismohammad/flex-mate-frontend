@@ -37,7 +37,7 @@ function UserChat({ trainerId }: TrainerChatProps) {
     console.log("messages from custom message hook",messages)
   console.log("local messages : chat = >",localMessages);
   
-  },[])
+  },[messages])
   
 
   useEffect(() => {
