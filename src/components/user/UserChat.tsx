@@ -32,11 +32,10 @@ function UserChat({ trainerId }: TrainerChatProps) {
   let { socket } = useSocketContext();
 
   useEffect(()=>{
-    console.log("ref",messageRef.current);
-    
-    console.log("messages from custom message hook",messages)
-  console.log("local messages : chat = >",localMessages);
-  
+    console.log("ref ident",messageRef.current);
+    console.log("messages ident from custom message hook",messages)
+  console.log("local messages ident : chat = >",localMessages);
+  setLocalMessages(messages);
   },[messages])
   
 
@@ -94,9 +93,7 @@ function UserChat({ trainerId }: TrainerChatProps) {
     };
   }, [socket, trainerInfo?.id, userInfo?.id]);
 
-  useEffect(() => {
-    setLocalMessages(messages || []);
-  }, [messages]);
+  
 
   const handleNewMessage = (newMessage: any) => {
     setLocalMessages((prevMessages) => {
