@@ -27,7 +27,7 @@ export const SocketContextProvider = ({
   const dispatch = useDispatch<AppDispatch>();
   const {addTrainerNotification, addUserNotification} = useNotification()
   
-  const newSocket = io("http://localhost:3000", {
+  const newSocket = io("https://api.flexmate.space", {
     query: { userId: loggedUser },
     transports: ['websocket'],
   });
