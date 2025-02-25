@@ -17,17 +17,16 @@ interface TrainerChatProps {
 }
 
 function UserChat({ trainerId }: TrainerChatProps) {
-  const [trainerData, setTrainerData] = useState<{name: string; profileImage: string;} | null>(null);
+  const [trainerData, setTrainerData] = useState<{
+    name: string;
+    profileImage: string;
+  } | null>(null);
   const [userData, setUserData] = useState<User | null>(null);
   const { token, userInfo } = useSelector((state: RootState) => state.user);
   const { messages, loading } = useGetMessage(token!, trainerId!);
   const [localMessages, setLocalMessages] = useState(messages);
   const [onlineUsers, setOnlineUsers] = useState<string[]>([]);
-
-console.log('messages',messages);
-
-  console.log('localMessages',localMessages);
-  
+  // console.log('localMessages',localMessages);
 
   const { trainerInfo } = useSelector((state: RootState) => state.trainer);
   let { socket } = useSocketContext();
@@ -58,7 +57,7 @@ console.log('messages',messages);
     socket.emit("join", trainerInfo?.id || userInfo?.id);
 
     const handleUpdateOnlineUsers = (users: string[]) => {
-      // console.log("Updated Online Users:", users);
+      console.log("Updated Online Users:", users);
       setOnlineUsers(users);
     };
 
@@ -87,7 +86,7 @@ console.log('messages',messages);
   }, [socket, trainerInfo?.id, userInfo?.id]);
 
   useEffect(() => {
-    setLocalMessages(messages);
+    setLocalMessages(messages || []);
   }, [messages]);
 
   const handleNewMessage = (newMessage: any) => {
@@ -111,10 +110,15 @@ console.log('messages',messages);
             src={trainerData?.profileImage}
             alt="profile"
           />
-          <div className="">
-          <h1 className="text-lg font-medium text-white">
-            {trainerData?.name}
-          </h1>
+          <div className="flex justify-center gap-2">
+            <h1 className="text-lg font-medium text-white">
+              {trainerData?.name}
+            </h1>
+            {onlineUsers.includes(trainerId) ? (
+              <span className="text-green-500 text-sm">🟢 Online</span>
+            ) : (
+              <span className="text-gray-400 text-sm">⚪ Offline</span>
+            )}
           </div>
         </div>
       </div>
