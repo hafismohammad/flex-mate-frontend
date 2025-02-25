@@ -20,8 +20,8 @@ function UserChat({ trainerId }: TrainerChatProps) {
   const [trainerData, setTrainerData] = useState<{name: string; profileImage: string;} | null>(null);
   const [userData, setUserData] = useState<User | null>(null);
   const { token, userInfo } = useSelector((state: RootState) => state.user);
-  const { messages , loading } = useGetMessage(token!, trainerId!);
-  const [localMessages, setLocalMessages] = useState<Array<any>>([]);
+  const { messages, loading } = useGetMessage(token!, trainerId!);
+  const [localMessages, setLocalMessages] = useState(messages);
   const [onlineUsers, setOnlineUsers] = useState<string[]>([]);
 
 
@@ -29,31 +29,24 @@ function UserChat({ trainerId }: TrainerChatProps) {
   let { socket } = useSocketContext();
 
   useEffect(() => {
-    setLocalMessages(Array.isArray(messages) ? messages : []);
-  }, [messages]);
-  
-
-  useEffect(() => {
     const fetchTrainerData = async () => {
-      try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_BASE_URL}/api/user/trainers/${trainerId}`
-        );
-  
-        if (Array.isArray(response.data) && response.data.length > 0) {
-          setTrainerData(response.data[0]);
-        } else {
-          setTrainerData(null); // Set to null to handle errors gracefully
-        }
-      } catch (error) {
-        console.error("Error fetching trainer:", error);
-        setTrainerData(null); // Ensure state doesn't remain undefined
-      }
+      const response = await axios(`${import.meta.env.VITE_BASE_URL}/api/user/trainers/${trainerId}`);
+      setTrainerData(response.data[0]);
     };
-  
     fetchTrainerData();
   }, [socket, trainerId]);
-  
+
+  useEffect(() => {
+    if (!userInfo?.id) return;
+
+    const fetchUserData = async () => {
+      const response = await userAxiosInstance(
+        `/api/user/users/${userInfo.id}`
+      );
+      setUserData(response.data);
+    };
+    fetchUserData();
+  }, [socket, userInfo?.id]);
 
   useEffect(() => {
     if (!socket) return;
@@ -118,14 +111,16 @@ function UserChat({ trainerId }: TrainerChatProps) {
           <h1 className="text-lg font-medium text-white">
             {trainerData?.name}
           </h1>
-          </div>s
+          </div>
         </div>
       </div>
-      <div className="px-4 flex-1 overflow-y-auto mt-2 overflow-x-hidden">
+      <div className="px-4 flex-1 overflow-y-auto mt-2 overflow-x-hidden ">
         {loading ? (
-          <MessageSkeleton />
+          <div>
+            <MessageSkeleton />
+          </div>
         ) : (
-          (Array.isArray(localMessages) ? localMessages : []).map((msg, index) => (
+          localMessages.map((msg, index) => (
             <Message
               key={index}
               sender={
