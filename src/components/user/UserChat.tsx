@@ -35,23 +35,25 @@ function UserChat({ trainerId }: TrainerChatProps) {
 
   useEffect(() => {
     const fetchTrainerData = async () => {
-      const response = await axios(`${import.meta.env.VITE_BASE_URL}/api/user/trainers/${trainerId}`);
-      setTrainerData(response.data[0]);
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_BASE_URL}/api/user/trainers/${trainerId}`
+        );
+  
+        if (Array.isArray(response.data) && response.data.length > 0) {
+          setTrainerData(response.data[0]);
+        } else {
+          setTrainerData(null); // Set to null to handle errors gracefully
+        }
+      } catch (error) {
+        console.error("Error fetching trainer:", error);
+        setTrainerData(null); // Ensure state doesn't remain undefined
+      }
     };
+  
     fetchTrainerData();
   }, [socket, trainerId]);
-
-  useEffect(() => {
-    if (!userInfo?.id) return;
-
-    const fetchUserData = async () => {
-      const response = await userAxiosInstance(
-        `/api/user/users/${userInfo.id}`
-      );
-      setUserData(response.data);
-    };
-    fetchUserData();
-  }, [socket, userInfo?.id]);
+  
 
   useEffect(() => {
     if (!socket) return;
@@ -116,7 +118,7 @@ function UserChat({ trainerId }: TrainerChatProps) {
           <h1 className="text-lg font-medium text-white">
             {trainerData?.name}
           </h1>
-          </div>
+          </div>s
         </div>
       </div>
       <div className="px-4 flex-1 overflow-y-auto mt-2 overflow-x-hidden">
