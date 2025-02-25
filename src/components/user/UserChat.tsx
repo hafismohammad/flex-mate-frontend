@@ -114,13 +114,11 @@ function UserChat({ trainerId }: TrainerChatProps) {
           </div>
         </div>
       </div>
-      <div className="px-4 flex-1 overflow-y-auto mt-2 overflow-x-hidden ">
+      <div className="px-4 flex-1 overflow-y-auto mt-2 overflow-x-hidden">
         {loading ? (
-          <div>
-            <MessageSkeleton />
-          </div>
+          <MessageSkeleton />
         ) : (
-          localMessages.map((msg, index) => (
+          (Array.isArray(localMessages) ? localMessages : []).map((msg, index) => (
             <Message
               key={index}
               sender={
