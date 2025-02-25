@@ -27,6 +27,8 @@ function TrainerChat({ userId, bookingId }: TrainerChatProps) {
   const { messages, loading } = useGetMessage(trainerToken!, userId!);
   const [localMessages, setLocalMessages] = useState(messages);
   const [booking_id, setBooking_id] = useState<string | null>(null);
+  const [onlineUsers, setOnlineUsers] = useState<string[]>([]);
+
 
   let { socket } = useSocketContext();
   const dispatch = useDispatch<AppDispatch>();
@@ -60,7 +62,23 @@ function TrainerChat({ userId, bookingId }: TrainerChatProps) {
 
     socket.emit("join", trainerInfo?.id || userInfo?.id);
 
+    socket.on("updateOnlineUsers", (users: string[]) => {
+      setOnlineUsers(users);
+    });
+
+    // const handleNewMessage = (newMessage: any) => {
+    //   if (newMessage.senderId === userId || newMessage.receiverId === userId) {
+    //     setLocalMessages((prevMessages) => {
+    //       const isDuplicate = prevMessages.some(
+    //         (msg) => msg._id === newMessage._id
+    //       );
+    //       return isDuplicate ? prevMessages : [...prevMessages, newMessage];
+    //     });
+    //   }
+    // };
     const handleNewMessage = (newMessage: any) => {
+      console.log("newMessage", newMessage);
+
       setLocalMessages((prevMessages) => [...prevMessages, newMessage]);
     };
 
@@ -68,8 +86,11 @@ function TrainerChat({ userId, bookingId }: TrainerChatProps) {
 
     return () => {
       socket.off("messageUpdate", handleNewMessage);
+      socket.off("updateOnlineUsers");
     };
   }, [socket, trainerInfo?.id, userInfo?.id]);
+
+
 
   useEffect(() => {
     setLocalMessages(messages);

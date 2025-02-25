@@ -6,12 +6,13 @@ interface SendMessageParams {
   message: string;
   receiverId: string;
   token: string;
+  senderName: string;
 }
 
 const useSendMessage = () => {
   const [loading, setLoading] = useState(false);
 
-  const sendMessage = async ({ message, receiverId, token }: SendMessageParams) => {
+  const sendMessage = async ({ message, receiverId, token ,senderName}: SendMessageParams) => {
     setLoading(true);
     try {
         // console.log(message,'--',receiverId,'--', token);
@@ -20,7 +21,8 @@ const useSendMessage = () => {
       const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/messages/send`, {
         message,
         receiverId,
-        token
+        token,
+        senderName
       });
 
       // Handle response here if needed

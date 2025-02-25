@@ -17,12 +17,12 @@ function FailedPayment() {
         </p>
 
         <div className="mt-8">
-          <button
+          {/* <button
             onClick={() => navigate('#')}
             className="bg-red-600 text-white px-6 py-2 rounded-md hover:bg-red-700 transition"
           >
             Retry Payment
-          </button>
+          </button> */}
           <button
             onClick={() => navigate('/')}
             className="ml-4 bg-gray-600 text-white px-6 py-2 rounded-md hover:bg-gray-700 transition"

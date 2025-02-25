@@ -15,7 +15,6 @@ interface SocketContextType {
 const SocketContext = createContext<SocketContextType>({ socket: null });
 
 export const useSocketContext = () => useContext(SocketContext);
-
 export const SocketContextProvider = ({
   children,
 }: {
@@ -28,11 +27,11 @@ export const SocketContextProvider = ({
   const dispatch = useDispatch<AppDispatch>();
   const {addTrainerNotification, addUserNotification} = useNotification()
   
-  const newSocket = io('https://api.flexmate.space', {
+  const newSocket = io("http://localhost:3000", {
     query: { userId: loggedUser },
     transports: ['websocket'],
   });
-  
+
   useEffect(() => {
     if (!loggedUser) {
       console.warn("No loggedUser; skipping socket initialization.");
@@ -131,21 +130,48 @@ export const SocketContextProvider = ({
     newSocket.on('receiveNewBooking', (data: string) => {
       addTrainerNotification(data);
     });
+      
+      newSocket.on("sendChatNotification", (data) => {
+        const { message, receiverId, trainerName, createdAt } = data;
+        // Ensure the notification is for the current trainer
+        if (trainerInfo?.id && receiverId === trainerInfo.id) {
+          const messageTime = new Date(createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      
+          addTrainerNotification(`New message from ${trainerName}: ${message} (${messageTime})`);
+          // toast.success(`New message from ${trainerName} at ${messageTime}: ${message}`);
+        }
+      });
+      
+      newSocket.on("sendChatNotificationFromTrainer", (data) => {
+        const { message, receiverId, userName, createdAt } = data;
+        
+        if (trainerInfo?.id && receiverId === userInfo?.id ) {
+            const messageTime = new Date(createdAt).toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+            });
+    
+            const notificationMessage = `New message from ${userName}: ${message} (${messageTime})`;
+    
+            addUserNotification(notificationMessage);
+        }
+    });
     
     
-    return () => {
-      console.log("Cleaning up socket event listeners...");
-      socket.off("incoming-video-call");
-      socket.off("accepted-call");
-      newSocket.off("call-rejected");
-      newSocket.off('receiveCancelNotificationForTrainer')
-      newSocket.off('receiveCancelNotificationForUser')
-      newSocket.off('receiveNewBooking')
-
-    };
+      return () => {
+        console.log("Cleaning up socket event listeners...");
+        socket.off("incoming-video-call");
+        socket.off("accepted-call");
+        socket.off("call-rejected");
+        socket.off("receiveCancelNotificationForTrainer");
+        socket.off("receiveCancelNotificationForUser");
+        socket.off("receiveNewBooking");
+        socket.off("sendChatNotification");
+        socket.off("sendChatNotificationFromTrainer");
+      };
+      
   }, [newSocket, dispatch,addUserNotification, addTrainerNotification]);
 
   return <SocketContext.Provider value={{ socket }}>{children}</SocketContext.Provider>;
 
 }
-

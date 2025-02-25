@@ -1,9 +1,10 @@
-import React, { createContext, useState, useContext, useCallback, ReactNode, useEffect } from "react";
+import React, { createContext, useState, useContext, useCallback, ReactNode } from "react";
 
 interface Notification {
   id: string;
   message: string;
   read: boolean;
+  createdAt: string,
 }
 
 interface NotificationContextProps {
@@ -15,7 +16,7 @@ interface NotificationContextProps {
   clearTrainerNotifications: () => void;
   updateTrainerNotificationReadStatus: (notificationId: string) => void;
   updateUserNotificationReadStatus: (notificationId: string) => void;
-  countUnreadNotificationsUser:number
+  countUnreadNotificationsUser: number;
 }
 
 const NotificationContext = createContext<NotificationContextProps | undefined>(undefined);
@@ -24,31 +25,9 @@ export const NotificationProvider: React.FC<{ children: ReactNode }> = ({ childr
   const [userNotifications, setUserNotifications] = useState<Notification[]>([]);
   const [trainerNotifications, setTrainerNotifications] = useState<Notification[]>([]);
 
-  // Persist notifications in localStorage on change
-  useEffect(() => {
-    const storedTrainerNotifications = localStorage.getItem("trainerNotifications");
-    const storedUserNotifications = localStorage.getItem("userNotifications");
-
-    if (storedTrainerNotifications) {
-      setTrainerNotifications(JSON.parse(storedTrainerNotifications));
-    }
-    if (storedUserNotifications) {
-      setUserNotifications(JSON.parse(storedUserNotifications));
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("trainerNotifications", JSON.stringify(trainerNotifications));
-  }, [trainerNotifications]);
-
-  useEffect(() => {
-    localStorage.setItem("userNotifications", JSON.stringify(userNotifications));
-  }, [userNotifications]);
-
   const countUnreadNotifications = (notifications: Notification[]) => {
     return notifications.filter(notif => !notif.read).length;
   };
-  
 
   const addUserNotification = useCallback((message: string) => {
     setUserNotifications((prev) => {
@@ -59,6 +38,7 @@ export const NotificationProvider: React.FC<{ children: ReactNode }> = ({ childr
         id: Date.now().toString(),
         message,
         read: false,
+        createdAt: new Date().toISOString(),
       };
       return [...prev, newNotification];
     });
@@ -73,6 +53,7 @@ export const NotificationProvider: React.FC<{ children: ReactNode }> = ({ childr
         id: Date.now().toString(),
         message,
         read: false,
+        createdAt: new Date().toISOString(),
       };
       return [...prev, newNotification];
     });

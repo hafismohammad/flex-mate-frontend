@@ -147,13 +147,13 @@ function Header({ scrollToServices }: HeaderProps) {
             </Link>
           </li>
           <li>
-          <button
-            onClick={scrollToServices}
-            className="hover:text-gray-300 transition-colors duration-200"
-          >
-            Services
-          </button>
-        </li>
+            <button
+              onClick={scrollToServices}
+              className="hover:text-gray-300 transition-colors duration-200"
+            >
+              Services
+            </button>
+          </li>
           <li className="block md:hidden">
             <Link
               to="/login"
@@ -165,11 +165,9 @@ function Header({ scrollToServices }: HeaderProps) {
         </ul>
       </nav>
 
-      {/* Notifications and Profile */}
       <div className="relative hidden md:block">
         {token ? (
           <div className="flex items-center space-x-6">
-            {/* Notification Icon */}
             <div className="relative">
               <BsBell
                 className="h-6 w-6 text-white cursor-pointer"
@@ -182,36 +180,35 @@ function Header({ scrollToServices }: HeaderProps) {
             </div>
 
             {isNotificationOpen && (
-              <div className="absolute top-10 right-0 w-[320px] bg-white shadow-lg rounded-md p-4">
+              <div className="absolute top-10 right-0 w-[340px] bg-white shadow-lg rounded-md p-4 z-40">
                 <h3 className="text-lg font-semibold text-gray-800 border-b pb-2">
                   Notifications
                 </h3>
-                {userNotifications?.length ? (
+                {userNotifications?.length > 0 ? (
                   <>
                     <ul className="space-y-3 mt-2 max-h-64 overflow-y-auto">
-                      {userNotifications?.length > 0 ? (
-                        <>
-                          {userNotifications.map((notification, index) => (
-                            <li
-                              key={index}
-                              onClick={() => handleReadUnread(notification.id)}
-                              className={`text-sm text-gray-700 border-b pb-2 ${
-                                notification.read
-                                  ? "opacity-50 bg-gray-100"
-                                  : "bg-yellow-100"
-                              }`}
-                            >
-                              {typeof notification.message === "string"
-                                ? notification.message
-                                : "Invalid message"}
-                            </li>
-                          ))}
-                        </>
-                      ) : (
-                        <p className="text-sm text-gray-500">
-                          No new notifications
-                        </p>
-                      )}
+                      {userNotifications
+                        .slice() 
+                        .sort(
+                          (a, b) =>
+                            new Date(b.createdAt).getTime() -
+                            new Date(a.createdAt).getTime()
+                        ) 
+                        .map((notification, index) => (
+                          <li
+                            key={index}
+                            onClick={() => handleReadUnread(notification.id)}
+                            className={`text-sm text-gray-700 border-b pb-2 ${
+                              notification.read
+                                ? "opacity-50 bg-gray-100"
+                                : "bg-yellow-100"
+                            }`}
+                          >
+                            {typeof notification.message === "string"
+                              ? notification.message
+                              : "Invalid message"}
+                          </li>
+                        ))}
                     </ul>
                     <div onClick={handleClear} className="flex justify-end">
                       <button className="text-gray-800">Clear</button>
@@ -223,7 +220,6 @@ function Header({ scrollToServices }: HeaderProps) {
               </div>
             )}
 
-            {/* User Profile */}
             <div className="relative">
               <img
                 alt="user profile"

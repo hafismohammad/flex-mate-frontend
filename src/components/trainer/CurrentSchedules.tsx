@@ -104,11 +104,16 @@ function CurrentSchedules() {
       );
       const newSchedule = response.data.createdSessionData;
 
-      setSessionSchedules((prevSchedules) =>
-        Array.isArray(newSchedule)
+      setSessionSchedules((prevSchedules) => {
+        
+        const updatedSchedules = Array.isArray(newSchedule)
           ? [...prevSchedules, ...newSchedule]
-          : [...prevSchedules, newSchedule]
-      );
+          : [...prevSchedules, newSchedule];
+      
+        // Sorting by createdAt in descending order (newest first)
+        return updatedSchedules.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+      });
+
 
       if (response.status === 201) {
         toast.success("Session created successfully");
