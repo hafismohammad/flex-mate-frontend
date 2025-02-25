@@ -39,7 +39,7 @@ const useGetMessage = (token: string, id: string) => {
       }
     };
     if (id)  getMessage();
-  }, [token, id, setMessages]);
+  }, [token, id, setMessages, messages]);
   console.log("messages in hook",messages);
   console.log("hook nte ulliley ref",messageRef.current);
   

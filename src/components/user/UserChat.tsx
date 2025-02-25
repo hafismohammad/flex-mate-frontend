@@ -32,7 +32,7 @@ function UserChat({ trainerId }: TrainerChatProps) {
   let { socket } = useSocketContext();
 
   useEffect(() => {
-    if (messages.length) {
+    if (messages) {
       console.log("ref ident", messageRef.current);
       console.log(messages.length && `second render ${messages}`);
       console.log("local messages ident : chat = >", localMessages);
