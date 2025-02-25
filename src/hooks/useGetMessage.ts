@@ -40,7 +40,8 @@ const useGetMessage = (token: string, id: string) => {
     };
     if (id) getMessage();
   }, [token, id, setMessages]);
-
+  console.log("messages in hook",messages);
+  
   return { messages, loading };
 };
 
