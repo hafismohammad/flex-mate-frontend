@@ -24,6 +24,10 @@ function UserChat({ trainerId }: TrainerChatProps) {
   const [localMessages, setLocalMessages] = useState(messages);
   const [onlineUsers, setOnlineUsers] = useState<string[]>([]);
 
+console.log('messages',messages);
+
+  console.log('localMessages',localMessages);
+  
 
   const { trainerInfo } = useSelector((state: RootState) => state.trainer);
   let { socket } = useSocketContext();
