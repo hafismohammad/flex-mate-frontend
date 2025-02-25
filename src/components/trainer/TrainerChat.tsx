@@ -39,6 +39,7 @@ function TrainerChat({ userId, bookingId }: TrainerChatProps) {
   },[userId])
 
 
+  console.log('localMessages',localMessages)
   
 
   useEffect(() => {
