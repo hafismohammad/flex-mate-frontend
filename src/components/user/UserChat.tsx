@@ -11,6 +11,7 @@ import API_URL from "../../../axios/API_URL";
 import userAxiosInstance from "../../../axios/userAxionInstance";
 import { User } from "../../types/user";
 import MessageSkeleton from "../skeleton/MessageSkeleton";
+import toast from "react-hot-toast";
 
 interface TrainerChatProps {
   trainerId: string;
@@ -39,6 +40,8 @@ function UserChat({ trainerId }: TrainerChatProps) {
       setLocalMessages(messages);
     } else {
       console.log("component intial");
+      toast.error("message is empty array");
+      console.log("message: ", messages)
     }
   }, [messages]);
   console.log("mesage update" + localMessages);
