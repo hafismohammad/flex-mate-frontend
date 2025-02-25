@@ -4,14 +4,11 @@ import MessageInputBar from "./MessageInputBar";
 import useGetMessage from "../../hooks/useGetMessage";
 import { useSelector } from "react-redux";
 import { RootState } from "../../app/store";
-import { io, Socket } from "socket.io-client";
 import { useSocketContext } from "../../context/Socket";
 import axios from "axios";
-import API_URL from "../../../axios/API_URL";
 import userAxiosInstance from "../../../axios/userAxionInstance";
 import { User } from "../../types/user";
 import MessageSkeleton from "../skeleton/MessageSkeleton";
-import toast from "react-hot-toast";
 
 interface TrainerChatProps {
   trainerId: string;
@@ -24,7 +21,7 @@ function UserChat({ trainerId }: TrainerChatProps) {
   } | null>(null);
   const [userData, setUserData] = useState<User | null>(null);
   const { token, userInfo } = useSelector((state: RootState) => state.user);
-  const { messages, loading, messageRef } = useGetMessage(token!, trainerId!);
+  const { messages, loading } = useGetMessage(token!, trainerId!);
   const [localMessages, setLocalMessages] = useState(messages);
   const [onlineUsers, setOnlineUsers] = useState<string[]>([]);
   // console.log('localMessages',localMessages);
@@ -33,24 +30,8 @@ function UserChat({ trainerId }: TrainerChatProps) {
   let { socket } = useSocketContext();
 
   useEffect(() => {
-    if (messages) {
-      console.log("ref ident", messageRef.current);
-      console.log(messages.length && `second render ${messages}`);
-      console.log("local messages ident : chat = >", localMessages);
-      setLocalMessages(messages);
-    } else {
-      console.log("component intial");
-      toast.error("message is empty array");
-      console.log("message: ", messages)
-    }
-  }, [messages]);
-  console.log("mesage update" + localMessages);
-
-  useEffect(() => {
     const fetchTrainerData = async () => {
-      const response = await axios(
-        `${import.meta.env.VITE_BASE_URL}/api/user/trainers/${trainerId}`
-      );
+      const response = await axios(`${import.meta.env.VITE_BASE_URL}/api/user/trainers/${trainerId}`);
       setTrainerData(response.data[0]);
     };
     fetchTrainerData();
@@ -102,6 +83,10 @@ function UserChat({ trainerId }: TrainerChatProps) {
     };
   }, [socket, trainerInfo?.id, userInfo?.id]);
 
+  useEffect(() => {
+    setLocalMessages(messages || []);
+  }, [messages]);
+
   const handleNewMessage = (newMessage: any) => {
     setLocalMessages((prevMessages) => {
       const isDuplicate = prevMessages.some(
@@ -141,7 +126,6 @@ function UserChat({ trainerId }: TrainerChatProps) {
             <MessageSkeleton />
           </div>
         ) : (
-          localMessages.length &&
           localMessages.map((msg, index) => (
             <Message
               key={index}
