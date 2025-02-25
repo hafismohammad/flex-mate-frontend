@@ -20,13 +20,18 @@ function UserChat({ trainerId }: TrainerChatProps) {
   const [trainerData, setTrainerData] = useState<{name: string; profileImage: string;} | null>(null);
   const [userData, setUserData] = useState<User | null>(null);
   const { token, userInfo } = useSelector((state: RootState) => state.user);
-  const { messages, loading } = useGetMessage(token!, trainerId!);
-  const [localMessages, setLocalMessages] = useState(messages);
+  const { messages , loading } = useGetMessage(token!, trainerId!);
+  const [localMessages, setLocalMessages] = useState<Array<any>>([]);
   const [onlineUsers, setOnlineUsers] = useState<string[]>([]);
 
 
   const { trainerInfo } = useSelector((state: RootState) => state.trainer);
   let { socket } = useSocketContext();
+
+  useEffect(() => {
+    setLocalMessages(Array.isArray(messages) ? messages : []);
+  }, [messages]);
+  
 
   useEffect(() => {
     const fetchTrainerData = async () => {
