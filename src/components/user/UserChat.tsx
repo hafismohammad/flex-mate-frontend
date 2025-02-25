@@ -32,7 +32,8 @@ function UserChat({ trainerId }: TrainerChatProps) {
   useEffect(() => {
     const fetchTrainerData = async () => {
       const response = await axios(`${import.meta.env.VITE_BASE_URL}/api/user/trainers/${trainerId}`);
-      setTrainerData(response.data[0]);
+      
+      setTrainerData(response.data);
     };
     fetchTrainerData();
   }, [socket, trainerId]);
@@ -98,6 +99,7 @@ function UserChat({ trainerId }: TrainerChatProps) {
       return isDuplicate ? prevMessages : [...prevMessages, newMessage];
     });
   };
+
 
   return (
     <div className="w-full lg:max-w-full md:max-w-[450px] h-[82vh] flex flex-col ">

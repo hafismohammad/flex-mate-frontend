@@ -20,6 +20,7 @@ function Message({ sender, message, time, userImage, trainerImage, }: MessagePro
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, []);
 
+
   return (
     <div className={`chat ${sender === 'User' ? 'chat-end' : 'chat-start'}`}>
       <div className="chat-image avatar">
