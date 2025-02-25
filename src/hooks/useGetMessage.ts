@@ -28,9 +28,9 @@ const useGetMessage = (token: string, id: string) => {
         const response = await axios.get(
           `${import.meta.env.VITE_BASE_URL}/api/messages/${token}/${id}`
         );
+        console.log('response.data',response.data);
 
         setMessages(response.data);
-        console.log('response.data',response.data);
         
       } catch (error) {
         console.error("Failed to fetch messages:", error);
